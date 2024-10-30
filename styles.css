@@ -6,6 +6,19 @@ body {
     text-align: center;
 }
 
+/* Adjust layout for screens smaller than 600px */
+@media (max-width: 600px) {
+    .container {
+        display: block;
+        width: 100%;
+    }
+    .table, .clock, .picture {
+        width: 100%;
+        margin: auto;
+        text-align: center;
+    }
+}
+
 /* Flex container to align TOD and countdown */
 .flex-container {
     display: flex;
