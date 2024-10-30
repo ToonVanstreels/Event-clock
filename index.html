@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tony Montana Clock</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="time-section">
+        <div class="flex-container">
+            <!-- TOD (Time of Day) -->
+            <div class="clock">
+                <h1>Time of Day</h1>
+                <div id="clock" class="next-event-clock">--:--:--</div>
+                <div id="date" class="date">Loading...</div>
+            </div>
+
+            <img src="Images/logo.png" alt="Event Image" id="event-image">
+
+            
+            
+        </div>
+    </div>
+
+    <div class="schedule-section">
+        <h2>Schedule</h2>   
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Day</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Countdown</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Events will be inserted here dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="app.js"></script>
+    <script src="Images/logo.png"></script>
+</body>
+</html>
