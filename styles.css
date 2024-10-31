@@ -4,15 +4,13 @@ body {
     color: white;
     font-family: 'Arial', sans-serif;
     text-align: center;
-    margin: 0; /* Remove any default margin from the body */
-    padding: 0;
 }
 
 /* Flex container to align TOD and countdown */
 .flex-container {
     display: flex;
     justify-content: space-around;
-    align-items: stretch;
+    align-items: stretch; /* Ensure both items stretch to same height */
     margin-bottom: 20px;
 }
 
@@ -20,54 +18,43 @@ body {
 .clock {
     background-color: blue;
     color: white;
-    padding: 20px;
-    border-radius: 10px;
+    padding: 5px;
+    border-radius: 5px;
     width: 45%;
-    min-height: 250px;
+    min-height: 50px; /* Set equal minimum height */
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-/* Styling for the Countdown section (yellow background) */
-.next-event {
-    background-color: yellow;
-    color: black;
-    padding: 20px;
-    border-radius: 10px;
-    width: 45%;
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+#event-image {
+    width: 35%;               /* Match the width of the .clock section */
+    min-height: 10px;        /* Match the minimum height of the .clock section */
+    border-radius: 5px;       /* Optional: add rounded corners like the .clock section */
+    object-fit: cover;        /* Ensure the image fills the area without distortion */
 }
 
 /* Clock and date text sizes */
 .next-event-clock {
-    font-size: 60px;
-    margin: 10px 0;
+    font-size: 90px;
+    margin: 20px 0;
 }
 
 .date {
     font-size: 30px;
 }
 
-/* Next event name style */
-.next-event-name {
-    font-size: 40px;
-}
-
 /* Event schedule table */
 .schedule-section table {
-    width: 100%; /* Full width of the screen */
-    margin: 0; /* Remove any default margins */
+    width: 98%;
+    margin: 0 auto;
     border-collapse: collapse;
+    font-size: 25px;
 }
 
 .schedule-section th, .schedule-section td {
-    padding: 10px;
-    border: 1px solid white;
-    text-align: center;
+    padding: 6px;
+    border: 1px solid grey;
 }
 
 /* Countdown inside the event table */
@@ -75,19 +62,4 @@ body {
     font-size: 20px;
 }
 
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    .flex-container {
-        flex-direction: column;
-    }
-
-    .clock, .next-event {
-        width: 80%;
-        margin-bottom: 20px;
-        min-height: unset;
-    }
-
-    .schedule-section table {
-        width: 100%; /* Ensure full width on mobile as well */
-    }
-}
+/* Responsive design for smal
