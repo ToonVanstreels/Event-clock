@@ -62,4 +62,35 @@ body {
     font-size: 20px;
 }
 
-/* Responsive design for smal
+/* Responsive adjustments for small screens */
+@media (max-width: 600px) {
+    .flex-container {
+        justify-content: space-between; /* Adjust spacing between elements on small screens */
+        gap: 5px; /* Add a smaller gap if needed */
+        padding: 0 10px; /* Add padding to avoid elements touching the screen edges */
+    }
+
+    .clock {
+        width: 45%; /* Make each section take up nearly half of the screen width */
+    }
+
+    #event-image {
+        width: 45%; /* Make each section take up nearly half of the screen width */
+    }   
+
+    .next-event-clock {
+        font-size: 8vw; /* Scale down font size for smaller screens */
+    }
+
+    .date {
+        font-size: 4vw; /* Scale down date text */
+    }
+
+    .schedule-section table {
+        font-size: 18px; /* Reduce font size for better readability on small screens */
+    }
+
+    .schedule-section .countdown {
+        font-size: 16px; /* Adjust countdown font size */
+    }
+}
