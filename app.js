@@ -61,7 +61,7 @@ function updateClock() {
 
 // Function to get the day of the week from a Date object
 function getDayOfWeek(date) {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'];
     return daysOfWeek[date.getDay()];
 }
 
