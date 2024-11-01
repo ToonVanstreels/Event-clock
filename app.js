@@ -12,7 +12,7 @@ function loadEvents() {
         .catch(error => console.error('Error fetching the event data:', error));
 }
 
-// Function to parse the text file data
+// Function to parse the text file data and sort by start date
 function parseEvents(data) {
     const lines = data.trim().split('\n');
     const events = lines.map(line => {
@@ -23,6 +23,10 @@ function parseEvents(data) {
             end: new Date(end.trim())
         };
     });
+
+    // Sort events by start date in ascending order
+    events.sort((a, b) => a.start - b.start);
+
     return events;
 }
 
@@ -57,7 +61,7 @@ function updateClock() {
 
 // Function to get the day of the week from a Date object
 function getDayOfWeek(date) {
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Satur'];
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return daysOfWeek[date.getDay()];
 }
 
