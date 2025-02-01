@@ -20,9 +20,9 @@ function parseEvents(data) {
         // Convert offset to an integer
         const utcOffset = parseInt(offset, 10); 
 
-        // Convert event time to UTC based on the given offset
-        const startDate = new Date(startLocal + " UTC" + (utcOffset >= 0 ? "+" : "") + utcOffset);
-        const endDate = new Date(endLocal + " UTC" + (utcOffset >= 0 ? "+" : "") + utcOffset);
+        // Convert event time to UTC-based ISO 8601 format (for full iOS/Android compatibility)
+        const startDate = new Date(`${startLocal}:00.000${utcOffset >= 0 ? "+" : ""}${utcOffset}:00`);
+        const endDate = new Date(`${endLocal}:00.000${utcOffset >= 0 ? "+" : ""}${utcOffset}:00`);
 
         return {
             name,
