@@ -1,4 +1,3 @@
-// Function to load and parse the event data from the text file
 function loadEvents() {
     fetch('events.txt')
         .then(response => response.text())
@@ -18,33 +17,24 @@ function parseEvents(data) {
         const [name, startLocal, endLocal, offset] = line.split(',').map(item => item.trim());
 
         // Convert offset to an integer
-        const utcOffset = parseInt(offset, 10); 
+        const utcOffset = parseInt(offset, 10); // Example: +0, -5, etc.
 
-        // Convert event time (start and end) to UTC with proper offset
-        const startDate = convertToUTC(startLocal, utcOffset);
-        const endDate = convertToUTC(endLocal, utcOffset);
+        // Parse the event start and end times in the local time zone
+        const startDate = new Date(startLocal + " GMT" + (utcOffset >= 0 ? "+" : "") + utcOffset);
+        const endDate = new Date(endLocal + " GMT" + (utcOffset >= 0 ? "+" : "") + utcOffset);
+
+        // Convert the time to the local timezone for the user's device
+        const localStartDate = new Date(startDate.toLocaleString('en-US', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
+        const localEndDate = new Date(endDate.toLocaleString('en-US', { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
         return {
             name,
-            start: startDate,
-            end: endDate,
+            start: localStartDate,
+            end: localEndDate,
             timeZoneOffset: utcOffset // Keep for reference
         };
     }).sort((a, b) => a.start - b.start);
 }
-
-// ✅ Function to handle time zone conversion, works for all devices and browsers
-function convertToUTC(localTime, offset) {
-    const [datePart, timePart] = localTime.split(' ');
-    // Create a full date string in ISO format: "YYYY-MM-DDTHH:mm:ss.sss±X:00"
-    const isoString = `${datePart}T${timePart}:00.000${offset >= 0 ? "+" : ""}${offset}:00`;
-    
-    // Return the date object, parsed correctly by all modern browsers (Chrome, Safari, etc.)
-    return new Date(isoString);
-}
-
-
-
 
 // Function to get only future events (events that haven't finished yet)
 function getFutureEvents(events) {
@@ -74,13 +64,13 @@ function updateClock() {
     dateElement.textContent = dateString;
 }
 
-
 // Function to get the day of the week from a Date object
 function getDayOfWeek(date) {
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'];
     return daysOfWeek[date.getDay()];
 }
 
+// Function to display future events in the table
 function displayEvents(events) {
     const tableBody = document.querySelector('table tbody');
     tableBody.innerHTML = ''; // Ensure no duplicate rows
@@ -90,7 +80,7 @@ function displayEvents(events) {
         const dayOfWeek = getDayOfWeek(event.start);
         row.innerHTML = `
             <td>${event.name}</td>
-            <td>${dayOfWeek}</td> 
+            <td>${dayOfWeek}</td>
             <td>${formatTime(event.start)}</td>
             <td>${formatTime(event.end)}</td>
             <td id="countdown${index}">--:--:--</td>
@@ -99,11 +89,15 @@ function displayEvents(events) {
     });
 }
 
+// Function to format time in HH:MM format
+function formatTime(date) {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
 
-
-let countdownIntervals = []; // Store intervals globally
-
-// Function to start countdowns for each event (for individual event rows)
+// Function to start countdowns for each event
+let countdownIntervals = [];
 function startCountdowns(events) {
     // Clear previous countdown timers
     countdownIntervals.forEach(clearInterval);
@@ -115,7 +109,6 @@ function startCountdowns(events) {
         countdownIntervals.push(interval);
     });
 }
-
 
 // Function to update countdown timer for event rows
 function updateCountdown(start, end, countdownId) {
@@ -130,7 +123,6 @@ function updateCountdown(start, end, countdownId) {
         diff = end - now;
         countdownElement.style.color = 'red'; // Set countdown color to red
     } else {
-        // Instead of manually removing the row, set text to 'Ended' and stop updating
         countdownElement.textContent = 'Ended';
         countdownElement.style.color = 'gray';
         return;
@@ -142,35 +134,6 @@ function updateCountdown(start, end, countdownId) {
 
     countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
-
-
-
-// Function to format time in HH:MM format
-function formatTime(date) {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    return `${hours}:${minutes}`;
-}
-
-
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        // Enter full screen
-        document.documentElement.requestFullscreen().catch(err => {
-            console.error(`Error attempting full-screen mode: ${err.message}`);
-        });
-        document.getElementById('fullscreen-btn').textContent = "Exit Full Screen";
-    } else {
-        // Exit full screen
-        document.exitFullscreen();
-        document.getElementById('fullscreen-btn').textContent = "Enter Full Screen";
-    }
-}
-
-// Attach the function to the button
-document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
-
-
 
 // Reload events every minute to remove any expired ones dynamically
 setInterval(() => {
