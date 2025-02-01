@@ -12,23 +12,27 @@ function loadEvents() {
         .catch(error => console.error('Error fetching the event data:', error));
 }
 
-// Function to parse the text file data and sort by start date
 function parseEvents(data) {
     const lines = data.trim().split('\n');
-    const events = lines.map(line => {
-        const [name, start, end] = line.split(',');
+    return lines.map(line => {
+        const [name, startLocal, endLocal, offset] = line.split(',').map(item => item.trim());
+
+        // Convert offset to an integer
+        const utcOffset = parseInt(offset, 10); 
+
+        // Convert event time to UTC based on the given offset
+        const startDate = new Date(startLocal + " UTC" + (utcOffset >= 0 ? "+" : "") + utcOffset);
+        const endDate = new Date(endLocal + " UTC" + (utcOffset >= 0 ? "+" : "") + utcOffset);
+
         return {
-            name: name.trim(),
-            start: new Date(start.trim()),
-            end: new Date(end.trim())
+            name,
+            start: startDate,
+            end: endDate,
+            timeZoneOffset: utcOffset // Keep for reference
         };
-    });
-
-    // Sort events by start date in ascending order
-    events.sort((a, b) => a.start - b.start);
-
-    return events;
+    }).sort((a, b) => a.start - b.start);
 }
+
 
 // Function to get only future events (events that haven't finished yet)
 function getFutureEvents(events) {
@@ -65,14 +69,13 @@ function getDayOfWeek(date) {
     return daysOfWeek[date.getDay()];
 }
 
-// Function to display future events in the table
 function displayEvents(events) {
     const tableBody = document.querySelector('table tbody');
-    tableBody.innerHTML = ''; 
+    tableBody.innerHTML = ''; // Ensure no duplicate rows
 
     events.forEach((event, index) => {
         const row = document.createElement('tr');
-        const dayOfWeek = getDayOfWeek(event.start); 
+        const dayOfWeek = getDayOfWeek(event.start);
         row.innerHTML = `
             <td>${event.name}</td>
             <td>${dayOfWeek}</td> 
@@ -85,31 +88,39 @@ function displayEvents(events) {
 }
 
 
+
+let countdownIntervals = []; // Store intervals globally
+
 // Function to start countdowns for each event (for individual event rows)
 function startCountdowns(events) {
+    // Clear previous countdown timers
+    countdownIntervals.forEach(clearInterval);
+    countdownIntervals = [];
+
     events.forEach((event, index) => {
         const countdownId = `countdown${index}`;
-        setInterval(() => updateCountdown(event.start, event.end, countdownId, index), 1000);
+        const interval = setInterval(() => updateCountdown(event.start, event.end, countdownId), 1000);
+        countdownIntervals.push(interval);
     });
 }
 
+
 // Function to update countdown timer for event rows
-function updateCountdown(start, end, countdownId, index) {
+function updateCountdown(start, end, countdownId) {
     const now = new Date();
     const countdownElement = document.getElementById(countdownId);
     let diff;
 
     if (now < start) {
-        // Event hasn't started yet, countdown to start
         diff = start - now;
         countdownElement.style.color = 'limegreen'; // Set countdown color to green
     } else if (now < end) {
-        // Event is ongoing, countdown to end
         diff = end - now;
         countdownElement.style.color = 'red'; // Set countdown color to red
     } else {
-        // Event has ended - remove it from the list
-        document.querySelector(`tr td#countdown${index}`).parentElement.remove();
+        // Instead of manually removing the row, set text to 'Ended' and stop updating
+        countdownElement.textContent = 'Ended';
+        countdownElement.style.color = 'gray';
         return;
     }
 
@@ -121,12 +132,33 @@ function updateCountdown(start, end, countdownId, index) {
 }
 
 
+
 // Function to format time in HH:MM format
 function formatTime(date) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     return `${hours}:${minutes}`;
 }
+
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        // Enter full screen
+        document.documentElement.requestFullscreen().catch(err => {
+            console.error(`Error attempting full-screen mode: ${err.message}`);
+        });
+        document.getElementById('fullscreen-btn').textContent = "Exit Full Screen";
+    } else {
+        // Exit full screen
+        document.exitFullscreen();
+        document.getElementById('fullscreen-btn').textContent = "Enter Full Screen";
+    }
+}
+
+// Attach the function to the button
+document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
+
+
 
 // Reload events every minute to remove any expired ones dynamically
 setInterval(() => {
