@@ -19,7 +19,7 @@ body {
     background-color: blue;
     color: white;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 45%;
     min-height: 50px; /* Set equal minimum height */
     display: flex;
@@ -29,10 +29,41 @@ body {
 
 #event-image {
     width: 35%;               /* Match the width of the .clock section */
-    min-height: 10px;        /* Match the minimum height of the .clock section */
-    border-radius: 5px;       /* Optional: add rounded corners like the .clock section */
+    min-height: 10px;         /* Match the minimum height of the .clock section */
+    border-radius: 10px;      /* Optional: add rounded corners like the .clock section */
     object-fit: cover;        /* Ensure the image fills the area without distortion */
 }
+
+#fullscreen-btn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#fullscreen-btn:hover {
+    background-color: rgb(75, 75, 75);
+    transform: scale(1.05);
+}
+
+#fullscreen-btn:active {
+    transform: scale(0.95);
+}
+
+#fullscreen-btn:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+}
+
 
 /* Clock and date text sizes */
 .next-event-clock {
@@ -61,6 +92,24 @@ body {
 .schedule-section .countdown {
     font-size: 20px;
 }
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Internet Explorer & Edge */
+body {
+    -ms-overflow-style: none;
+}
+
+
 
 /* Responsive adjustments for small screens */
 @media (max-width: 600px) {
