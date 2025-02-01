@@ -20,9 +20,9 @@ function parseEvents(data) {
         // Convert offset to an integer
         const utcOffset = parseInt(offset, 10); 
 
-        // Convert event time to UTC-based ISO 8601 format (for full iOS/Android compatibility)
-        const startDate = new Date(`${startLocal}:00.000${utcOffset >= 0 ? "+" : ""}${utcOffset}:00`);
-        const endDate = new Date(`${endLocal}:00.000${utcOffset >= 0 ? "+" : ""}${utcOffset}:00`);
+        // Convert event time (start and end) to UTC with proper offset
+        const startDate = convertToUTC(startLocal, utcOffset);
+        const endDate = convertToUTC(endLocal, utcOffset);
 
         return {
             name,
@@ -32,6 +32,18 @@ function parseEvents(data) {
         };
     }).sort((a, b) => a.start - b.start);
 }
+
+// ✅ Function to handle time zone conversion, works for all devices and browsers
+function convertToUTC(localTime, offset) {
+    const [datePart, timePart] = localTime.split(' ');
+    // Create a full date string in ISO format: "YYYY-MM-DDTHH:mm:ss.sss±X:00"
+    const isoString = `${datePart}T${timePart}:00.000${offset >= 0 ? "+" : ""}${offset}:00`;
+    
+    // Return the date object, parsed correctly by all modern browsers (Chrome, Safari, etc.)
+    return new Date(isoString);
+}
+
+
 
 
 // Function to get only future events (events that haven't finished yet)
