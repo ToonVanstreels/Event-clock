@@ -20,7 +20,7 @@ body {
     color: white;
     padding: 5px;
     border-radius: 10px;
-    width: 45%;
+    width: 55%;
     min-height: 50px; /* Set equal minimum height */
     display: flex;
     flex-direction: column;
@@ -28,7 +28,7 @@ body {
 }
 
 #event-image {
-    width: 35%;               /* Match the width of the .clock section */
+    width: 30%;               /* Match the width of the .clock section */
     min-height: 10px;         /* Match the minimum height of the .clock section */
     border-radius: 10px;      /* Optional: add rounded corners like the .clock section */
     object-fit: cover;        /* Ensure the image fills the area without distortion */
@@ -67,12 +67,12 @@ body {
 
 /* Clock and date text sizes */
 .next-event-clock {
-    font-size: 90px;
-    margin: 20px 0;
+    font-size: 140px;
+    margin: 10px 0;
 }
 
 .date {
-    font-size: 30px;
+    font-size: 40px;
 }
 
 /* Event schedule table */
@@ -80,11 +80,11 @@ body {
     width: 98%;
     margin: 0 auto;
     border-collapse: collapse;
-    font-size: 25px;
+    font-size: 30px;
 }
 
 .schedule-section th, .schedule-section td {
-    padding: 6px;
+    padding: 7px;
     border: 1px solid grey;
 }
 
