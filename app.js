@@ -1,16 +1,28 @@
-// Function to load and parse the event data from the text file
-function loadEvents() {
-    fetch('events.txt')
+let currentFile = 'events1.txt';  // Default file
+
+function loadEvents(file = currentFile) {
+    fetch(file)
         .then(response => response.text())
         .then(data => {
             const events = parseEvents(data);
-            const futureEvents = getFutureEvents(events);  // Filter out past events
+            const futureEvents = getFutureEvents(events);
             displayEvents(futureEvents);
             startCountdowns(futureEvents);
-            startNextEventCountdown(futureEvents);  // Start countdown to the next event
         })
         .catch(error => console.error('Error fetching the event data:', error));
 }
+
+function switchEventList(file, label) {
+    currentFile = file;
+    document.getElementById('table-header').textContent = label;
+    loadEvents(file);
+}
+
+// Update event listeners
+document.getElementById('list1-btn').addEventListener('click', () => switchEventList('events1.txt', '24h Series'));
+document.getElementById('list2-btn').addEventListener('click', () => switchEventList('events2.txt', 'PCCB'));
+
+
 
 function parseEvents(data) {
     const lines = data.trim().split('\n');
