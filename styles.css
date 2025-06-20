@@ -64,6 +64,40 @@ body {
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
+#list1-btn{
+    font-size: px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 80px;
+}
+
+#list1-btn:hover {
+    background-color: rgb(75, 75, 75);
+    transform: scale(1.05);
+}
+
+
+#list2-btn{
+    font-size: px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 80px;
+}
+
+#list2-btn:hover {
+    background-color: rgb(75, 75, 75);
+    transform: scale(1.05);
+}
 
 /* Clock and date text sizes */
 .next-event-clock {
