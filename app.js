@@ -18,9 +18,19 @@ function switchEventList(file, label) {
     loadEvents(file);
 }
 
-// Update event listeners
-document.getElementById('list1-btn').addEventListener('click', () => switchEventList('events1.txt', '24h Series'));
-document.getElementById('list2-btn').addEventListener('click', () => switchEventList('events2.txt', 'PCCB'));
+function closeModal() {
+    document.getElementById('timetable-modal').style.display = 'none';
+}
+
+document.getElementById('modal-list1').addEventListener('click', () => {
+    switchEventList('events1.txt', '24h Series');
+    closeModal();
+});
+
+document.getElementById('modal-list2').addEventListener('click', () => {
+    switchEventList('events2.txt', 'PCCB');
+    closeModal();
+});
 
 
 
@@ -171,11 +181,7 @@ setInterval(() => {
 
 // Load events and start the clock when the page is ready
 window.onload = function() {
-    loadEvents();
-    
-    // Start the clock
     updateClock();
-
-    // Update the clock every second
     setInterval(updateClock, 1000);
 };
+
