@@ -36,14 +36,19 @@ document.getElementById('modal-list2').addEventListener('click', () => {
 
 function parseEvents(data) {
     const lines = data.trim().split('\n');
-    return lines.map(line => {
-        const [name, startISO, endISO] = line.split(',').map(item => item.trim());
 
-        // Use Date constructor to parse ISO 8601 string correctly across all devices
+    return lines.map(line => {
+        const [type, name, startISO, endISO] = line.split(',').map(item => item.trim());
+
         const startDate = new Date(startISO);
         const endDate = new Date(endISO);
 
-        return { name, start: startDate, end: endDate };
+        return {
+            type: parseInt(type, 10),   // store the number
+            name,
+            start: startDate,
+            end: endDate
+        };
     }).sort((a, b) => a.start - b.start);
 }
 
@@ -85,11 +90,19 @@ function getDayOfWeek(date) {
 
 function displayEvents(events) {
     const tableBody = document.querySelector('table tbody');
-    tableBody.innerHTML = ''; // Ensure no duplicate rows
+    tableBody.innerHTML = '';
 
     events.forEach((event, index) => {
         const row = document.createElement('tr');
+
+        // Add class depending on type
+        if (event.type === 1) row.classList.add('event-type-1'); // Type 1: track session
+        if (event.type === 2) row.classList.add('event-type-2'); // Type 2: drivers
+        if (event.type === 3) row.classList.add('event-type-3'); // Type 3: team manager
+        if (event.type === 4) row.classList.add('event-type-4'); // Type 4: Important event
+
         const dayOfWeek = getDayOfWeek(event.start);
+
         row.innerHTML = `
             <td>${event.name}</td>
             <td>${dayOfWeek}</td> 
@@ -97,6 +110,7 @@ function displayEvents(events) {
             <td>${formatTime(event.end)}</td>
             <td id="countdown${index}">--:--:--</td>
         `;
+
         tableBody.appendChild(row);
     });
 }
