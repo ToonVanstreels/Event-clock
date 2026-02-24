@@ -82,6 +82,31 @@ body {
 
 
 
+/* ===== Event Type Colors ===== */
+
+/* Type 1 */
+.event-type-1 td {
+    background-color: #ff000079;
+    color: rgb(255, 255, 255);
+}
+
+/* Type 2 */
+.event-type-2 td {
+    background-color: #fffffff7;
+    color: rgb(255, 0, 0);
+}
+
+/* Type 3 */
+.event-type-3 td {
+    background-color: rgba(255, 255, 0, 0.61);
+    color: white;
+}
+
+/* Type 4 */
+.event-type-4 td {
+    background-color: rgba(0, 0, 255, 0.548);
+    color: white;
+}
 
 
 .modal {
