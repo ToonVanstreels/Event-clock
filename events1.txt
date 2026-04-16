@@ -6,7 +6,7 @@
 3,Team Managers briefing (room 132), 2026-04-16T14:00:00+02:00, 2026-04-16T14:30:00+02:00
 4,Parade to Malmedy, 2026-04-16T15:45:00+02:00, 2026-04-16T18:15:00+02:00
 2,Drivers briefing (Malmundarium Malmedy), 2026-04-16T17:45:00+02:00, 2026-04-16T18:15:00+02:00
-4,Fuel Mechanics Briefing (fuel area), 2026-04-17T10:15:00+02:00, 2026-03-19T10:45:00+02:00
+4,Fuel Mechanics Briefing (fuel area), 2026-04-17T09:45:00+02:00, 2026-04-17T10:15:00+02:00
 1,Free Practice, 2026-04-17T10:45:00+02:00, 2026-04-17T12:45:00+02:00
 4,Return data card scrutineering, 2026-04-17T12:45:00+02:00, 2026-04-17T13:00:00+02:00
 4,Fuel Station Open, 2026-04-17T15:55:00+02:00, 2026-04-17T16:10:00+02:00
