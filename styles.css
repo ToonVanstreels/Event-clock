@@ -16,7 +16,7 @@ body {
 
 /* Styling for the Time of Day section (blue background) */
 .clock {
-    background-color: blue;
+    background-color: black;
     color: white;
     padding: 5px;
     border-radius: 10px;
