@@ -1,129 +1,207 @@
-/* General styles */
+/* ================================
+   GENERAL STYLES
+================================ */
+
 body {
     background-color: black;
     color: white;
     font-family: 'Arial', sans-serif;
     text-align: center;
+    margin: 0;
 }
 
-/* Flex container to align TOD and countdown */
+
+/* ================================
+   TOP SECTION
+================================ */
+
 .flex-container {
     display: flex;
     justify-content: space-around;
-    align-items: stretch; /* Ensure both items stretch to same height */
+    align-items: stretch;
     margin-bottom: 20px;
+    gap: 10px;
 }
 
-/* Styling for the Time of Day section (blue background) */
+
+/* Time of Day */
+
 .clock {
     background-color: black;
     color: white;
     padding: 5px;
     border-radius: 10px;
     width: 55%;
-    min-height: 50px; /* Set equal minimum height */
+    min-height: 50px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+
+
+/* Schedule name */
 
 .schedule-id {
-    background-color: rgb(0, 0, 0);
+    background-color: black;
     color: white;
-    padding: 0px;
+    padding: 0;
     border-radius: 10px;
     width: 8%;
-    min-height: 50px; /* Set equal minimum height */
+    min-height: 50px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 
+/* Logo */
+
 #event-image {
-    width: 30%;               /* Match the width of the .clock section */
-    min-height: 10px;         /* Match the minimum height of the .clock section */
-    border-radius: 10px;      /* Optional: add rounded corners like the .clock section */
-    object-fit: cover;        /* Ensure the image fills the area without distortion */
+    width: 30%;
+    min-height: 10px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
-#fullscreen-btn {
+
+/* ================================
+   MOBILE BUTTON
+================================ */
+
+#mobile-btn {
     position: fixed;
     top: 10px;
     right: 10px;
+
     padding: 10px 20px;
-    font-size: px;
+
+    font-size: 16px;
     font-weight: bold;
+
     color: white;
     background-color: black;
-    border: none;
+
+    border: 1px solid white;
     border-radius: 10px;
+
     cursor: pointer;
+
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+    z-index: 500;
 }
 
-#fullscreen-btn:hover {
+#mobile-btn:hover {
     background-color: rgb(75, 75, 75);
     transform: scale(1.05);
 }
 
-#fullscreen-btn:active {
+#mobile-btn:active {
     transform: scale(0.95);
 }
 
-#fullscreen-btn:focus {
+#mobile-btn:focus {
     outline: none;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
 
 
+/* ================================
+   NORMAL CLOCK SIZE
+================================ */
+
+.next-event-clock {
+    font-size: 200px;
+    margin: 0;
+}
+
+.date {
+    font-size: 40px;
+}
 
 
+/* Schedule title */
+
+.schedule-id-text {
+    font-size: 20px;
+    margin: 0;
+}
 
 
-/* ===== Event Type Colors ===== */
+/* ================================
+   EVENT TABLE
+================================ */
 
-/* Type 1 */
+.schedule-section table {
+    width: 98%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    font-size: 30px;
+}
+
+.schedule-section th,
+.schedule-section td {
+    padding: 7px;
+    border: 1px solid grey;
+}
+
+.schedule-section .countdown {
+    font-size: 20px;
+}
+
+
+/* ================================
+   EVENT TYPE COLORS
+================================ */
+
 .event-type-1 td {
     background-color: #ff000079;
     color: rgb(255, 255, 255);
 }
 
-/* Type 2 */
 .event-type-2 td {
     background-color: #fffffff7;
     color: rgb(255, 0, 0);
 }
 
-/* Type 3 */
 .event-type-3 td {
     background-color: rgba(255, 255, 0, 0.61);
     color: white;
 }
 
-/* Type 4 */
 .event-type-4 td {
     background-color: rgba(0, 0, 255, 0.548);
     color: white;
 }
 
 
+/* ================================
+   TIMETABLE MODAL
+================================ */
+
 .modal {
     position: fixed;
     inset: 0;
+
     background: rgba(0, 0, 0, 0.75);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     z-index: 1000;
 }
 
 .modal-content {
     background: #111;
+
     padding: 30px 40px;
+
     border-radius: 10px;
+
     text-align: center;
+
     color: white;
 }
 
@@ -133,107 +211,193 @@ body {
 
 .modal-content button {
     display: block;
+
     width: 200px;
+
     margin: 10px auto;
+
     padding: 12px;
+
     font-size: 18px;
+
     cursor: pointer;
-    background: rgba(255, 255, 255, 1);
+
+    background: white;
+
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
+
+    box-shadow:
+        0px 4px 8px rgba(255, 255, 255, 0.2);
 }
 
 
-.schedule-id-text {
-    font-size: 30px;
-    margin: 0; /* Remove default margin */
+/* ================================
+   MOBILE MODE
+================================ */
+
+/*
+   When Mobile Mode is active:
+   - Hide logo
+   - Hide schedule name
+   - Make clock full width
+   - Make time much larger
+*/
+
+/* ================================
+   MOBILE MODE
+================================ */
+
+body.mobile-mode .schedule-id {
+    display: none;
+}
+
+body.mobile-mode #event-image {
+    display: none;
+}
+
+body.mobile-mode .flex-container {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+body.mobile-mode .clock {
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+
+body.mobile-mode .next-event-clock {
+    font-size: 20vw;
+    line-height: 1;
+    margin: 0;
+    padding: 20px 0 20px 0;
+}
+
+/* Hide the date in Mobile Mode */
+body.mobile-mode .date {
+    display: none;
 }
 
 
-
-/* TOD size */
-.next-event-clock {
-    font-size: 160px;
-    margin: 0px 0;
+body.mobile-mode .schedule-section table {
+    width: 100%;
+    font-size: 24px;
 }
 
-.date {
-    font-size: 40px;
+body.mobile-mode .schedule-section th,
+body.mobile-mode .schedule-section td {
+    padding: 10px 6px;
 }
 
-/* Event schedule table */
-.schedule-section table {
-    width: 98%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-size: 30px;
+body.mobile-mode .schedule-section .countdown {
+    font-size: 24px;
 }
 
-.schedule-section th, .schedule-section td {
-    padding: 7px;
-    border: 1px solid grey;
+/* Make the table slightly smaller in mobile mode */
+
+body.mobile-mode .schedule-section table {
+    width: 100%;
+    font-size: 35px;
 }
 
-/* Countdown inside the event table */
-.schedule-section .countdown {
-    font-size: 20px;
+body.mobile-mode .schedule-section th,
+body.mobile-mode .schedule-section td {
+    padding: 5px;
 }
 
-/* Hide scrollbar for Chrome, Safari, and Edge */
+
+/* ================================
+   HIDE SCROLLBARS
+================================ */
+
 ::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
-/* Hide scrollbar for Firefox */
 html {
     scrollbar-width: none;
 }
 
-/* Hide scrollbar for Internet Explorer & Edge */
 body {
     -ms-overflow-style: none;
 }
 
 
+/* ================================
+   SMALL SCREENS
+================================ */
 
-/* Responsive adjustments for small screens */
 @media (max-width: 900px) {
+
     .flex-container {
-        justify-content: space-between; /* Adjust spacing between elements on small screens */
-        gap: 5px; /* Add a smaller gap if needed */
-        padding: 0 10px; /* Add padding to avoid elements touching the screen edges */
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0 10px;
     }
 
     .clock {
-        width: 45%; /* Make each section take up nearly half of the screen width */
+        width: 45%;
     }
 
     #event-image {
-        width: 45%; /* Make each section take up nearly half of the screen width */
-    }   
+        width: 45%;
+    }
 
-    #schedule-id {
-        width: 45%; /* Make each section take up nearly half of the screen width */
-    } 
+    .schedule-id {
+        width: 45%;
+    }
 
     .schedule-id-text {
-        font-size: 2vw; /* Scale down font size for smaller screens */
+        font-size: 2vw;
     }
 
     .next-event-clock {
-        font-size: 8vw; /* Scale down font size for smaller screens */
+        font-size: 8vw;
     }
 
     .date {
-        font-size: 4vw; /* Scale down date text */
+        font-size: 4vw;
     }
 
     .schedule-section table {
-        font-size: 18px; /* Reduce font size for better readability on small screens */
+        font-size: 18px;
     }
 
     .schedule-section .countdown {
-        font-size: 16px; /* Adjust countdown font size */
+        font-size: 16px;
+    }
+}
+
+
+/* ================================
+   MOBILE MODE ON SMALL SCREENS
+================================ */
+
+@media (max-width: 900px) {
+
+    body.mobile-mode .next-event-clock {
+        font-size: 18vw;
+        white-space: nowrap;
+    }
+
+    body.mobile-mode .date {
+        display: none;
+    }
+
+    body.mobile-mode .schedule-section table {
+        font-size: 20px;
+    }
+
+    body.mobile-mode .schedule-section th,
+    body.mobile-mode .schedule-section td {
+        padding: 9px 5px;
+    }
+
+    body.mobile-mode .schedule-section .countdown {
+        font-size: 20px;
     }
 }
