@@ -33,18 +33,18 @@ document.getElementById('modal-list2').addEventListener('click', () => {
 });
 
 
-
 function parseEvents(data) {
     const lines = data.trim().split('\n');
 
     return lines.map(line => {
-        const [type, name, startISO, endISO] = line.split(',').map(item => item.trim());
+        const [type, name, startISO, endISO] =
+            line.split(',').map(item => item.trim());
 
         const startDate = new Date(startISO);
         const endDate = new Date(endISO);
 
         return {
-            type: parseInt(type, 10),   // store the number
+            type: parseInt(type, 10),
             name,
             start: startDate,
             end: endDate
@@ -53,40 +53,55 @@ function parseEvents(data) {
 }
 
 
-// Function to get only future events (events that haven't finished yet)    
+// Get only future events
 function getFutureEvents(events) {
     const now = new Date();
     return events.filter(event => event.end > now);
 }
 
-// Function to update the clock and date
+
+// Update the clock and date
 function updateClock() {
     const clockElement = document.getElementById('clock');
     const dateElement = document.getElementById('date');
-    
+
     const now = new Date();
-    
-    // Format the time
+
     const hours = now.getHours().toString().padStart(2, '0');
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const seconds = now.getSeconds().toString().padStart(2, '0');
+
     const timeString = `${hours}:${minutes}:${seconds}`;
-    
-    // Format the date
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+
     const dateString = now.toLocaleDateString(undefined, options);
 
-    // Update the clock and date
     clockElement.textContent = timeString;
     dateElement.textContent = dateString;
 }
 
 
-// Function to get the day of the week from a Date object
+// Get day of the week
 function getDayOfWeek(date) {
-    const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur'];
+    const daysOfWeek = [
+        'Sun',
+        'Mon',
+        'Tues',
+        'Wednes',
+        'Thurs',
+        'Fri',
+        'Satur'
+    ];
+
     return daysOfWeek[date.getDay()];
 }
+
 
 function displayEvents(events) {
     const tableBody = document.querySelector('table tbody');
@@ -96,16 +111,16 @@ function displayEvents(events) {
         const row = document.createElement('tr');
 
         // Add class depending on type
-        if (event.type === 1) row.classList.add('event-type-1'); // Type 1: track session
-        if (event.type === 2) row.classList.add('event-type-2'); // Type 2: drivers
-        if (event.type === 3) row.classList.add('event-type-3'); // Type 3: team manager
-        if (event.type === 4) row.classList.add('event-type-4'); // Type 4: Important event
+        if (event.type === 1) row.classList.add('event-type-1');
+        if (event.type === 2) row.classList.add('event-type-2');
+        if (event.type === 3) row.classList.add('event-type-3');
+        if (event.type === 4) row.classList.add('event-type-4');
 
         const dayOfWeek = getDayOfWeek(event.start);
 
         row.innerHTML = `
             <td>${event.name}</td>
-            <td>${dayOfWeek}</td> 
+            <td>${dayOfWeek}</td>
             <td>${formatTime(event.start)}</td>
             <td>${formatTime(event.end)}</td>
             <td id="countdown${index}">--:--:--</td>
@@ -116,86 +131,127 @@ function displayEvents(events) {
 }
 
 
+let countdownIntervals = [];
 
-let countdownIntervals = []; // Store intervals globally
 
-// Function to start countdowns for each event (for individual event rows)
+// Start countdowns
 function startCountdowns(events) {
-    // Clear previous countdown timers
+
     countdownIntervals.forEach(clearInterval);
     countdownIntervals = [];
 
     events.forEach((event, index) => {
+
         const countdownId = `countdown${index}`;
-        const interval = setInterval(() => updateCountdown(event.start, event.end, countdownId), 1000);
+
+        const interval = setInterval(() => {
+            updateCountdown(
+                event.start,
+                event.end,
+                countdownId
+            );
+        }, 1000);
+
         countdownIntervals.push(interval);
     });
 }
 
 
-// Function to update countdown timer for event rows
+// Update countdown timer
 function updateCountdown(start, end, countdownId) {
+
     const now = new Date();
-    const countdownElement = document.getElementById(countdownId);
+    const countdownElement =
+        document.getElementById(countdownId);
+
     let diff;
 
     if (now < start) {
+
         diff = start - now;
-        countdownElement.style.color = 'lime'; // Set countdown color to green
+        countdownElement.style.color = 'lime';
+
     } else if (now < end) {
+
         diff = end - now;
-        countdownElement.style.color = 'red'; // Set countdown color to red
+        countdownElement.style.color = 'red';
+
     } else {
-        // Instead of manually removing the row, set text to 'Ended' and stop updating
+
         countdownElement.textContent = 'Ended';
         countdownElement.style.color = 'gray';
         return;
     }
 
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    const hours = Math.floor(
+        diff / (1000 * 60 * 60)
+    );
 
-    countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const minutes = Math.floor(
+        (diff % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
+
+    const seconds = Math.floor(
+        (diff % (1000 * 60)) /
+        1000
+    );
+
+    countdownElement.textContent =
+        `${hours.toString().padStart(2, '0')}:` +
+        `${minutes.toString().padStart(2, '0')}:` +
+        `${seconds.toString().padStart(2, '0')}`;
 }
 
 
-
-// Function to format time in HH:MM format
+// Format time in HH:MM
 function formatTime(date) {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    const hours = date
+        .getHours()
+        .toString()
+        .padStart(2, '0');
+
+    const minutes = date
+        .getMinutes()
+        .toString()
+        .padStart(2, '0');
+
     return `${hours}:${minutes}`;
 }
 
 
-function toggleFullScreen() {
-    if (!document.fullscreenElement) {
-        // Enter full screen
-        document.documentElement.requestFullscreen().catch(err => {
-            console.error(`Error attempting full-screen mode: ${err.message}`);
-        });
-        document.getElementById('fullscreen-btn').textContent = "Exit Full Screen";
+// ================================
+// MOBILE MODE
+// ================================
+
+const mobileButton =
+    document.getElementById('mobile-btn');
+
+mobileButton.addEventListener('click', () => {
+
+    document.body.classList.toggle('mobile-mode');
+
+    if (document.body.classList.contains('mobile-mode')) {
+        mobileButton.textContent = 'Exit Mobile Mode';
     } else {
-        // Exit full screen
-        document.exitFullscreen();
-        document.getElementById('fullscreen-btn').textContent = "Enter Full Screen";
+        mobileButton.textContent = 'Mobile Mode';
     }
-}
-
-// Attach the function to the button
-document.getElementById('fullscreen-btn').addEventListener('click', toggleFullScreen);
+});
 
 
-
-// Reload events every minute to remove any expired ones dynamically
+// Reload events every minute
 setInterval(() => {
-    loadEvents(); // Reload and refresh the list to keep it up-to-date
+    loadEvents();
 }, 60000);
 
-// Load events and start the clock when the page is ready
+
+// Load events and start clock
 window.onload = function() {
+
+    loadEvents();
+
     updateClock();
+
     setInterval(updateClock, 1000);
 };
-
